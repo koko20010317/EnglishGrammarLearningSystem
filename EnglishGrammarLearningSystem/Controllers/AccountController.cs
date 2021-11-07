@@ -56,14 +56,14 @@ namespace EnglishGrammarLearningSystem.Controllers
             }
         }
 
-        private void LoginProcess(string user, bool isRemeber)
+        private void LoginProcess(string user, string id, bool isRemeber)
         {
             var now = DateTime.Now;
             //string roles = user.Role_System.Role;
 
             var ticket = new FormsAuthenticationTicket(
                 version: 1,
-                name: user,
+                name: id,
                 issueDate: now,
                 expiration: now.AddHours(24),
                 isPersistent: isRemeber,
@@ -127,11 +127,13 @@ namespace EnglishGrammarLearningSystem.Controllers
             {
                 bool nameFound = false;
                 bool passwdFound = false;
+                string userID = string.Empty;
                 for (int i = 2; i <= 101; i++)
                 {
                     string userName = wb.Worksheet("User").Cell(i, 2).Value.ToString();
                     if (model.Email == userName)
                     {
+                        userID = wb.Worksheet("User").Cell(i, 1).Value.ToString();
                         nameFound = true;
                         if (model.Password == wb.Worksheet("User").Cell(i, 3).Value.ToString())
                         {
@@ -146,8 +148,27 @@ namespace EnglishGrammarLearningSystem.Controllers
                     if (passwdFound)
                     {
                         // OK
-                        this.LoginProcess(model.Email, false);
-                        return RedirectToAction("Index", "Home");
+                        this.LoginProcess(model.Email, userID, false);
+
+                        bool pretestDone = false;
+                        for (int i = 2; i <= 101; i++)
+                        {
+                            string r_userID = wb.Worksheet("Record_pretest").Cell(i, 2).Value.ToString();
+                            if (r_userID == userID)
+                            {
+                                pretestDone = true;
+                                break;
+                            }
+                        }
+
+                        if (pretestDone)
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            return RedirectToAction("PreTest", "PreTest");
+                        }                        
                     }
                     else
                     {
