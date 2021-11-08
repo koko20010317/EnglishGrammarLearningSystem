@@ -1,40 +1,43 @@
 ﻿@model List<EnglishGrammarLearningSystem.Models.PretestViewModels>
-
+@{
+    ViewBag.Title = "程度測驗";
+}
 <h2>程度測驗.</h2>
 <div id="pretestContent">
-    <table class="table" id="examTable">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>題目</th>
-                <th>選項</th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var q in Model)
-            {
-                <tr>
-                    <td style="display:none">@q.QLID</td>
-                    <td>@q.QID</td>
-                    <td>@q.Question</td>
-                    <td>@q.Options</td>
-                    <td style="width: 8%">
-                        <select class="form-control">
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                            <option value="D">D</option>
-                        </select>
-                    </td>
-                    <td></td>
-                </tr>
-             }
-        </tbody>
-    </table>
+    @using (Html.BeginForm("", "", FormMethod.Post, new { id = "form1" }))
+    {
+<table class="table" id="examTable">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>題目</th>
+            <th>選項</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var q in Model)
+        {
+<tr>
+    <td style="display:none">@q.QLID</td>
+    <td>@q.QID</td>
+    <td>@q.Question</td>
+    <td>@q.Options</td>
+    <td style="width: 8%">
+        <select class="form-control">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+        </select>
+    </td>
+    <td></td>
+</tr>}
+    </tbody>
+</table>}
     <div align="center">
         <button type="button" class="btn btn-primary" style="width: 200px" onclick="submit()">送出</button>
     </div>
@@ -47,7 +50,7 @@
     {
         LoadingBlockUI();
 
-        //var formData = new FormData(document.getElementById("form1"));
+        var formData = new FormData(document.getElementById("form1"));
         //var counter = 0;
 
         //$.each($('#pj_Table_Pu>tbody>tr'), function (i, tr) {
