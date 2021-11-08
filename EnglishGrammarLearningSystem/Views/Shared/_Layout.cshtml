@@ -11,7 +11,11 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
-
+    <script>
+        var baseUrl = "@Url.Content("~")";
+    </script>
+    <script src="~/Scripts/jquery.blockUI.js"></script>
+    <script src="~/Scripts/JS_Common.js"></script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">

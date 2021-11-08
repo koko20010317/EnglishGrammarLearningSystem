@@ -68,7 +68,7 @@ namespace EnglishGrammarLearningSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult PreTest() 
+        public ActionResult PreTestSubmit() 
         {
             var qList = new List<Models.PretestViewModels>();
 

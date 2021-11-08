@@ -45,6 +45,48 @@
      var Project_AddPath = '@Url.Action("Project_Add", "Pretest")';
     function submit()
     {
+        LoadingBlockUI();
+
+        //var formData = new FormData(document.getElementById("form1"));
+        //var counter = 0;
+
+        //$.each($('#pj_Table_Pu>tbody>tr'), function (i, tr) {
+        //    var o_name = $(tr.cells[0]).find('input').val();
+        //    var o_size = $(tr.cells[1]).find('input').val();
+        //    var o_type = $(tr.cells[2]).find('input').val();
+        //    var p_size = $(tr.cells[3]).find('input').val();
+        //    var p_type = $(tr.cells[4]).find('input').val();
+        //    if (o_name == '' && o_size == '' && o_type == '' && p_size == '' && p_type == '') {
+        //        return true;
+        //    }
+
+        //    formData.append('paperConsumptions[' + counter + '].O_Name', o_name);
+        //    formData.append('paperConsumptions[' + counter + '].O_Size', o_size);
+        //    formData.append('paperConsumptions[' + counter + '].O_Type', o_type);
+        //    formData.append('paperConsumptions[' + counter + '].P_Size', p_size);
+        //    formData.append('paperConsumptions[' + counter + '].P_Type', p_type);
+        //    counter++;
+        //})
+
+        //counter = 0;
+        //$.each($('#pj_Table_humanList>tbody>tr'), function (i, tr) {
+        //    var name = $(tr.cells[1]).find('input').val();
+        //    var level = $(tr.cells[2]).find('select option:selected')[0].value;
+        //    if (name == null || name.trim() == '' || level == null || level.trim() == '') {
+        //        return true;
+        //    }
+
+        //    formData.append('projectLeaders[' + counter + '].Name', name);
+        //    formData.append('projectLeaders[' + counter + '].Level', level);
+        //    counter++;
+        //})
+
+        //$.each($('.fileinput-filepath'), function (i, item) {
+        //    var fileName_system = item.innerText;
+        //    var fileName = $(item).siblings('.explorer-caption')[0].innerText;
+        //    formData.append('fileList[' + i + '].FileName', fileName);
+        //    formData.append('fileList[' + i + '].FileName_system', fileName_system);
+        //});
 
         //$.ajax({
         //    url: Project_AddPath,
