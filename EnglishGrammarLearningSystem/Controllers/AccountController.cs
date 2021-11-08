@@ -67,7 +67,7 @@ namespace EnglishGrammarLearningSystem.Controllers
                 issueDate: now,
                 expiration: now.AddHours(24),
                 isPersistent: isRemeber,
-                userData: user,
+                userData: user, 
                 cookiePath: FormsAuthentication.FormsCookiePath);
 
             var encryptedTicket = FormsAuthentication.Encrypt(ticket);
@@ -149,7 +149,7 @@ namespace EnglishGrammarLearningSystem.Controllers
                     {
                         // OK
                         this.LoginProcess(model.Email, userID, false);
-
+                        ViewBag.UserName = model.Email;
                         bool pretestDone = false;
                         for (int i = 2; i <= 101; i++)
                         {

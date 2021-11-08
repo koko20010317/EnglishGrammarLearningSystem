@@ -1,0 +1,30 @@
+﻿@model List<EnglishGrammarLearningSystem.Models.PretestViewModels>
+
+您的等級為: @Model.FirstOrDefault().UserLevel 級
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>題目</th>
+            <th>選項</th>
+            <th>您的答案</th>
+            <th>正確答案</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var q in Model)
+        {
+            <tr>
+                <td style="display:none">@q.QLID</td>
+                <td>@q.QID</td>
+                <td>@q.Question</td>
+                <td>@q.Options</td>
+                <td>@q.UserAns</td>
+                <td>q.QLAns</td>
+            </tr>
+        }
+    </tbody>
+</table>

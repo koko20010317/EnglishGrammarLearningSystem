@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using System.Web.Security;
 
 namespace EnglishGrammarLearningSystem.Controllers
 {
@@ -14,57 +15,42 @@ namespace EnglishGrammarLearningSystem.Controllers
         public static string dbPath = AppDomain.CurrentDomain.BaseDirectory + @"Content\DB.xlsx";
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
-            int currentUserID = 0;
-            string userName = "UNKNOWN";
             if (!string.IsNullOrEmpty(filterContext.HttpContext.User.Identity.Name))
             {
                 using (var wb = new XLWorkbook(dbPath))
                 {
                     bool pretestDone = false;
+
                     for (int i = 2; i <= 101; i++)
                     {
                         string r_userID = wb.Worksheet("Record_pretest").Cell(i, 2).Value.ToString();
                         if (r_userID == filterContext.HttpContext.User.Identity.Name)
-                        {
+                        {                            
                             pretestDone = true;
                             break;
                         }
                     }
 
+                    for (int i = 2; i <= 101; i++)
+                    {
+                        if (wb.Worksheet("User").Cell(i, 1).Value.ToString() == filterContext.HttpContext.User.Identity.Name) 
+                        {
+                            ViewBag.UserName = wb.Worksheet("User").Cell(i, 2).Value.ToString();
+                            break;
+                        }
+                    }
 
-                    // 
                     if (pretestDone)
                     {
-                        //return RedirectToAction("Index", "Home");
+                        
                     }
                     else
                     {
                         //return RedirectToAction("PreTest", "Home");
                         filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "PreTest", action = "PreTest" }));
-                        // filterContext.Result = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary { { "PreTest", "Home" } });
                     }
                 }
-                //currentUserID = 0;
-                //if (int.TryParse(filterContext.HttpContext.User.Identity.Name, out currentUserID))
-                //{
-                //    using (ProjectTrackingSystemDBContext db = new ProjectTrackingSystemDBContext())
-                //    {
-                //        var currentUserData = ProjectTrackingSystemDBContext.GetAvailableUserData(db, currentUserID);
-                //        if (currentUserData != null)
-                //        {
-                //            userName = currentUserData.Login_User_ID;
-
-                //            var superUsers = Service.CommonService.superUserList;
-                //        }
-                //    }
-                //}
             }
-            //ViewBag.CurrentUserName = userName;
-
-            //if (HttpContext.Request.Browser.Browser.ToLower() != "Chrome".ToLower() && HttpContext.Request.Browser.Browser.ToLower() != "Firefox".ToLower())
-            //{
-            //    filterContext.Result = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary { { "Controller", "Error" }, { "Action", "BrowserNS" } });
-            //}
         }
 
         public ActionResult Index()
@@ -72,7 +58,7 @@ namespace EnglishGrammarLearningSystem.Controllers
             return View();
         }
 
-        public ActionResult PreTest() 
+        public ActionResult PreTest()
         {
 
             return View();
