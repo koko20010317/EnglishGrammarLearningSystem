@@ -45,7 +45,7 @@
 
 <script>
 
-     var Project_AddPath = '@Url.Action("Project_Add", "Pretest")';
+    var PreTestSubmitPath = '@Url.Action("PreTestSubmit", "Pretest")';
     function submit()
     {
         LoadingBlockUI();
@@ -84,36 +84,40 @@
         //    counter++;
         //})
 
-        //$.each($('.fileinput-filepath'), function (i, item) {
-        //    var fileName_system = item.innerText;
-        //    var fileName = $(item).siblings('.explorer-caption')[0].innerText;
-        //    formData.append('fileList[' + i + '].FileName', fileName);
-        //    formData.append('fileList[' + i + '].FileName_system', fileName_system);
-        //});
+        $.each($('#examTable>tbody>tr'), function (i, item) {
+            debugger;
+            var qid = item.children[0].innerText;
+            var userAns = $(item).find('select')[0].value
 
-        //$.ajax({
-        //    url: Project_AddPath,
-        //    type: "POST",
-        //    data: formData,
-        //    dataType: 'text',
-        //    contentType: false,
-        //    processData: false,
-        //    error: function (xhr, status, error) {
-        //        $.unblockUI();
-        //        $('.alert-danger>#errMsg')[0].innerText = 'AJAX Error! Please try again later!';
-        //        $('.alert-danger').show();
-        //    },
-        //    success: function (data) {
-        //        data = JSON.parse(data)
-        //        if (data.Success == true) {
-        //            //location.href = Project_AllProjectPath;
-        //            location.href = Project_DetailPath.replace("TargetID", data.Message);
-        //        } else {
-        //            $('.alert-danger>#errMsg')[0].innerText = data.Message;
-        //            $('.alert-danger').show();
-        //        }
-        //    }
-        //})
+
+            formData.append('data[' + i + '].QID', qid);
+            formData.append('data[' + i + '].UserAns', userAns);
+        });
+
+        $.ajax({
+            url: PreTestSubmitPath,
+            type: "POST",
+            data: formData,
+            dataType: 'text',
+            contentType: false,
+            processData: false,
+            error: function (xhr, status, error) {
+                $.unblockUI();
+                $('.alert-danger>#errMsg')[0].innerText = 'AJAX Error! Please try again later!';
+                $('.alert-danger').show();
+            },
+            success: function (data) {
+                $('#pretestContent').val(data);
+                //data = JSON.parse(data)
+                //if (data.Success == true) {
+                //    //location.href = Project_AllProjectPath;
+                //    location.href = Project_DetailPath.replace("TargetID", data.Message);
+                //} else {
+                //    $('.alert-danger>#errMsg')[0].innerText = data.Message;
+                //    $('.alert-danger').show();
+                //}
+            }
+        })
 
 
     }

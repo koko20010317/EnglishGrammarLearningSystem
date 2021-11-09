@@ -68,11 +68,16 @@ namespace EnglishGrammarLearningSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult PreTestSubmit() 
+        public ActionResult PreTestSubmit(List<Models.PretestViewModels> data)
         {
             var qList = new List<Models.PretestViewModels>();
 
-            return PartialView("_PretestPartial",  qList);
+            using (var wb = new XLWorkbook(dbPath))
+            {
+
+            }
+
+            return PartialView("_PretestPartial", qList);
         }
 
 
