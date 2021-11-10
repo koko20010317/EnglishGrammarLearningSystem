@@ -22,6 +22,7 @@ namespace EnglishGrammarLearningSystem.Controllers
                     if (wb.Worksheet("User").Cell(i, 1).Value.ToString() == filterContext.HttpContext.User.Identity.Name)
                     {
                         ViewBag.UserName = wb.Worksheet("User").Cell(i, 2).Value.ToString();
+                        ViewBag.UserID = filterContext.HttpContext.User.Identity.Name;
                         break;
                     }
                 }
@@ -31,7 +32,7 @@ namespace EnglishGrammarLearningSystem.Controllers
 
         public ActionResult PreTest()
         {
-            string userID = ViewBag.user;
+            string userID = ViewBag.UserID;
             var qList = new List<Models.PretestViewModels>();
 
             // 隨機取十題
@@ -71,9 +72,51 @@ namespace EnglishGrammarLearningSystem.Controllers
         public ActionResult PreTestSubmit(List<Models.PretestViewModels> data)
         {
             var qList = new List<Models.PretestViewModels>();
-
+            int score = 0;
+            int index = 0;
+            string level = "";
             using (var wb = new XLWorkbook(dbPath))
             {
+                foreach (var d in data)
+                {
+                    index++;
+                    var correctAns = wb.Worksheet('PreTest').Cell(d.QLID + 1, 4).Value.ToString();
+                    qList.Add(new Models.PretestViewModels
+                    {
+                        QLID = d.QLID,
+                        UserAns = d.UserAns,
+                        QID = index,
+                        Question = wb.Worksheet("PreTest").Cell(d.QLID + 1, 2).Value.ToString(),
+                        Options = wb.Worksheet("PreTest").Cell(d.QLID + 1, 2).Value.ToString(),
+                        QLAns = correctAns
+                    });
+                    if (d.UserAns == correctAns)
+                    {
+                        score += 10;
+                    }
+                }
+
+                if (score <= 59)
+                {
+                    level = "初級";
+                }
+                else if (score >= 80)
+                {
+                    level = "高級";
+                }
+                else 
+                {
+                    level = "中級";
+                }
+
+                qList.FirstOrDefault().score = score;
+                qList.FirstOrDefault().UserLevel = level;
+
+                // add user test result in DB
+                // find empty row
+                //wb.Worksheet('Record_pretest').Cell()
+
+
 
             }
 
